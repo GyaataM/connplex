@@ -205,6 +205,7 @@ const EnvForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
             </div>
             <div className="w-full md:mr-2 mb-2 lg:max-w-[180px]">
               <Select
+                searchable={true}
                 name="state"
                 placeholder="Type your state"
                 className={`flex items-center justify-between text-[10px] text-black font-medium border border-[rgba(115,114,115,0.4)] rounded-lg py-[7px] px-4 cursor-pointer bg-white focus:outline-none ${
@@ -228,6 +229,7 @@ const EnvForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
             </div>
             <div className="w-full md:mr-2 mb-2 lg:max-w-[180px]">
               <Select
+                searchable={true}
                 name="city"
                 placeholder="Type your city"
                 disabled={!values.state}
