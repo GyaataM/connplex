@@ -222,6 +222,7 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
             </div>
             <div className="w-full flex gap-[25px] md:mr-2 mb-2">
               <Select
+                searchable={true}
                 name="state"
                 label="State"
                 placeholder="Type your state"
@@ -241,6 +242,7 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                 </div>
               )}
               <Select
+                searchable={true}
                 name="city"
                 label="City"
                 placeholder="Type your city"
