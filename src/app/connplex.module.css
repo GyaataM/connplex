@@ -1,0 +1,25 @@
+.eventlocation :global(h3) {
+    display: none;
+  }
+  
+  @media only screen and (max-width: 575px) {
+    .arrowIcn {
+      width: 15px;
+      height: 15px;
+    }
+  }
+  
+  @keyframes moveRight {
+    0% {
+      left: 0;
+    }
+  
+    50% {
+      left: -4px;
+    }
+  
+    to {
+      left: 0;
+    }
+  }
+  
