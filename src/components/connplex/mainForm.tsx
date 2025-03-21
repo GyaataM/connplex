@@ -10,6 +10,7 @@ import Checkbox from "../Fields/CheckBox";
 import States from "@/data/states";
 import Cities from "@/data/cities";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface FormValues {
   name: string | null;
@@ -26,6 +27,7 @@ interface EnquireProps {
 }
 
 const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
+  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const initialValues: FormValues = {
@@ -96,6 +98,7 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
       );
 
       if (response.status == 200) {
+        router.push("/thankyou");
         resetForm();
       }
     } catch (error) {

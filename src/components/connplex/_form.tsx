@@ -9,6 +9,7 @@ import States from "@/data/states";
 import Cities from "@/data/cities";
 import Checkbox from "../Fields/CheckBox";
 import axios from "axios";
+import { useRouter } from "next/navigation";
 
 interface FormValues {
   name: string | null;
@@ -24,6 +25,7 @@ interface EnquireProps {
 }
 
 const EnvForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
+  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const initialValues: FormValues = {
@@ -92,6 +94,7 @@ const EnvForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
 
       if (response.status == 200) {
         resetForm();
+        router.push("/thankyou");
       }
     } catch (error) {
       console.log("Kylas Contact us Saving Error", error);
@@ -235,12 +238,12 @@ const EnvForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                     ? "border-red-500 mb-0.5"
                     : ""
                 }`}
-                options={Cities
-                  .filter((city) => city.stateId === values.state)
-                  .map((city) => ({
-                    label: city.name,
-                    value: city.id,
-                  }))}
+                options={Cities.filter(
+                  (city) => city.stateId === values.state
+                ).map((city) => ({
+                  label: city.name,
+                  value: city.id,
+                }))}
               />
               {getIn(errors, "city") && getIn(touched, "city") && (
                 <div className="text-red-500 font-medium w-full lg:max-w-[180px] text-[12px]">
