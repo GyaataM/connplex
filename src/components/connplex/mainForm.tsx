@@ -252,7 +252,9 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                     ? "border-red-500 mb-0.5"
                     : ""
                 }`}
-                options={Cities.map((city) => ({
+                options={Cities.filter(
+                  (city) => city.stateId === values.state
+                ).map((city) => ({
                   label: city.name,
                   value: city.id,
                 }))}

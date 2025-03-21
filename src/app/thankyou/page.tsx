@@ -8,9 +8,9 @@ const ThankYou = () => {
   return (
     <div
       style={{ height: "100vh" }}
-      className="!bg-[url(/images/connplex/connplex_banner.png)] bg-cover"
+      className="!bg-[url(/images/connplex/connplex_banner.jpg)] bg-cover"
     >
-      <div className="w-full pt-[56px] lg:pt-[95px] pb-[129px] lg:pb-[136px] flex justify-center">
+      <div className="w-full pt-[56px] lg:pt-[95px] pb-[50px] lg:pb-[120px] flex justify-center">
         <Image
           className="h-[50px] w-auto"
           width={227}

@@ -469,7 +469,7 @@ export default EventLandingPage;
 
 const BannerSection = () => {
   return (
-    <section className="h-full px-[24.5px] lg:px-0 pt-[81px] pb-8 flex justify-center items-center !bg-[url(/images/connplex/connplex_banner.png)] bg-cover">
+    <section className="h-full px-[24.5px] lg:px-0 pt-[81px] pb-8 flex justify-center items-center !bg-[url(/images/connplex/connplex_banner.jpg)] object-cover bg-cover">
       <div className="relative container z-[1]  flex justify-center">
         <div className="w-full flex flex-col gap-7 lg:flex-row items-center justify-center">
           <div className="max-w-[500px] lg:max-w-[510px] flex flex-col lg:items-start items-center text-white text-center lg:text-left lg:mb-0">
