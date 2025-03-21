@@ -9,17 +9,13 @@ interface FormProps {
   setRegistering: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const EventForm: React.FC<FormProps> = ({
-  classNames,
-  pageForm,
-  setRegistering,
-}) => {
+const EventForm: React.FC<FormProps> = ({ setRegistering }) => {
   return (
     <>
       <section
         className={`border-t border-[#D3B15F] justify-center items-center bg-black py-2 lg:sticky lg:bottom-0 ${styles.eventForm} hidden lg:flex`}
       >
-        <EnvForm pageFrom={pageForm} />
+        <EnvForm />
       </section>
 
       <section

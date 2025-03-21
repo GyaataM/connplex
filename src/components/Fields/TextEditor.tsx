@@ -1,24 +1,21 @@
 import { useField } from "formik";
-import ReactQuill from "react-quill";
+import ReactQuill, { ReactQuillProps } from "react-quill";
 
-const ReactQuillField = ({ name, ...props }: any) => {
-  const [field, meta, helpers] = useField(name);
+interface ReactQuillFieldProps extends Omit<ReactQuillProps, "onChange" | "value"> {
+  name: string;
+}
 
-  const handleChange = (value: any) => {
+const ReactQuillField: React.FC<ReactQuillFieldProps> = ({ name, ...props }) => {
+  const [field, meta, helpers] = useField<string>(name);
+
+  const handleChange = (value: string) => {
     helpers.setValue(value);
   };
 
   return (
     <>
-      <ReactQuill
-        id={name}
-        value={field.value || ""}
-        onChange={handleChange}
-        {...props}
-      />
-      {meta.touched && meta.error && (
-        <div className="text-red-500 font-medium mb-2">{meta.error}</div>
-      )}
+      <ReactQuill id={name} value={field.value || ""} onChange={handleChange} {...props} />
+      {meta.touched && meta.error && <div className="text-red-500 font-medium mb-2">{meta.error}</div>}
     </>
   );
 };

@@ -1,10 +1,9 @@
 import { Field, Form, Formik, FormikHelpers, getIn } from "formik";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import Button from "../button/button";
 import InputField from "../Fields/InputField";
 import Select from "../select/Select";
-import { useRouter, usePathname } from "next/navigation";
 import NumberField from "../Fields/CustomNumberBox";
 import States from "@/data/states";
 import Cities from "@/data/cities";
@@ -22,16 +21,10 @@ interface FormValues {
 
 interface EnquireProps {
   varient?: "white" | "dark";
-  pageFrom?: string;
 }
 
-const EnvForm: React.FC<EnquireProps> = ({ varient = "white", pageFrom }) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [leadFrom, setLeadFrom] = useState("");
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+const EnvForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [cities, setCities] = useState(Cities);
 
   const initialValues: FormValues = {
     name: "",
@@ -41,21 +34,6 @@ const EnvForm: React.FC<EnquireProps> = ({ varient = "white", pageFrom }) => {
     state: 0,
     city: 0,
   };
-
-  useEffect(() => {
-    if (pathname) {
-      const pathParts = pathname.split("/");
-      if (pathParts.includes("franchise")) {
-        const locationIndex = pathParts.indexOf("franchise") + 1;
-        if (pathParts[locationIndex]) {
-          const locationName =
-            pathParts[locationIndex].charAt(0).toUpperCase() +
-            pathParts[locationIndex].slice(1);
-          setLeadFrom(locationName);
-        }
-      }
-    }
-  }, [pathname]);
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -257,7 +235,7 @@ const EnvForm: React.FC<EnquireProps> = ({ varient = "white", pageFrom }) => {
                     ? "border-red-500 mb-0.5"
                     : ""
                 }`}
-                options={cities
+                options={Cities
                   .filter((city) => city.stateId === values.state)
                   .map((city) => ({
                     label: city.name,

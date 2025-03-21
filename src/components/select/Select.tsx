@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, KeyboardEvent } from "react";
-import { useField, useFormikContext } from "formik";
+import { useField } from "formik";
 import styles from "./select.module.css";
 
 interface Option {
@@ -29,10 +29,8 @@ const Select: React.FC<SelectProps> = ({
   onChange,
   searchable = false,
   disabled = false,
-  ...props
 }) => {
   const [field, meta, helpers] = useField(name);
-  const { submitCount } = useFormikContext();
   const [isOpen, setIsOpen] = useState(false);
   const [isTouched, setIsTouched] = useState(false);
   const [dropUp, setDropUp] = useState(false);
@@ -44,7 +42,6 @@ const Select: React.FC<SelectProps> = ({
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -63,7 +60,7 @@ const Select: React.FC<SelectProps> = ({
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [selectRef, helpers, isOpen]);
+  }, [selectRef, helpers, isOpen, meta, isTouched]);
 
   useEffect(() => {
     if (isOpen && dropdownRef.current && selectRef.current) {
@@ -151,8 +148,6 @@ const Select: React.FC<SelectProps> = ({
       }
     }
   };
-
-  const showError = (isTouched || submitCount > 0) && meta.error;
 
   const filteredOptions = options.filter((option) =>
     option.label.toLowerCase().includes(searchQuery.toLowerCase())
