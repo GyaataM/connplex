@@ -27,7 +27,7 @@ function EventLandingPage() {
                 alt="close"
               />
             </div>
-            <MainForm pageFrom="Connplex" />
+            <MainForm />
           </div>
         </div>
       )}
@@ -465,7 +465,7 @@ const BannerSection = () => {
             </h2>
           </div>
           <div className="md:mx-0 py-[31px] px-2 md:px-[37px] items-center bg-black border border-[#D3B15F] rounded-lg lg:mb-8 shadow-lg lg:shadow-none">
-            <MainForm pageFrom="Connplex" />
+            <MainForm />
           </div>
         </div>
       </div>
