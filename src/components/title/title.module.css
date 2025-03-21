@@ -1,0 +1,17 @@
+.title {
+    font-size: 2rem;
+    color: var(--footer-bg);
+    line-height: normal;
+    padding-bottom: 1rem;
+}
+
+@media only screen and (max-width: 767px) {
+    .title {
+        font-size: 1.3rem;
+        padding-bottom: 0rem;
+    }
+
+    .description {
+        font-size: 13px;
+    }
+}
