@@ -1,12 +1,6 @@
 "use client";
-import Link from "next/link";
 import styles from "./footer.module.css";
-import { SlSocialInstagram } from "react-icons/sl";
-import { FaFacebook, FaLinkedin } from "react-icons/fa";
 import Image from "next/image";
-import { FaXTwitter } from "react-icons/fa6";
-import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
 
 const Footer = () => {
   return (

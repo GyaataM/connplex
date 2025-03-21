@@ -20,7 +20,6 @@ const Dropdown: React.FC<DropdownProps> = ({
   options,
   value,
   onChange,
-  onBlur,
   placeholder,
   className,
   error,

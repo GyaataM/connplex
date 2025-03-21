@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, KeyboardEvent } from "react";
-import { useField, useFormikContext } from "formik";
+import { useField } from "formik";
 import styles from "./select.module.css";
 
 interface Option {
@@ -29,12 +29,10 @@ const Select: React.FC<SelectProps> = ({
   onChange,
   searchable = false,
   disabled = false,
-  ...props
 }) => {
-  const [field, meta, helpers] = useField(name);
-  const { submitCount } = useFormikContext();
+  const [field, helpers] = useField(name);
   const [isOpen, setIsOpen] = useState(false);
-  const [isTouched, setIsTouched] = useState(false);
+  // const [isTouched, setIsTouched] = useState(false);
   const [dropUp, setDropUp] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [focusedOptionIndex, setFocusedOptionIndex] = useState(-1);
@@ -44,7 +42,6 @@ const Select: React.FC<SelectProps> = ({
   const [isFocused, setIsFocused] = useState(false);
 
   const handleFocus = () => setIsFocused(true);
-  const handleBlur = () => setIsFocused(false);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -54,8 +51,8 @@ const Select: React.FC<SelectProps> = ({
       ) {
         setIsOpen(false);
         if (isOpen) {
-          setIsTouched(true);
-          helpers.setTouched(true);
+          // setIsTouched(true);
+          // helpers.setTouched(true);
         }
       }
     };
@@ -84,9 +81,9 @@ const Select: React.FC<SelectProps> = ({
   }, [isOpen]);
 
   const handleOptionClick = (option: Option) => {
-    helpers.setValue(option.value);
+    // helpers.setValue(option.value);
     setIsOpen(false);
-    setIsTouched(true);
+    // setIsTouched(true);
     if (onChange) {
       onChange(option.value);
     }
@@ -137,8 +134,8 @@ const Select: React.FC<SelectProps> = ({
           case "Tab":
             event.preventDefault();
             setIsOpen(false);
-            setIsTouched(true);
-            helpers.setTouched(true);
+            // setIsTouched(true);
+            // helpers.setTouched(true);
             if (event.key === "Tab") {
               setTimeout(() => {
                 if (selectRef.current) {
@@ -151,8 +148,6 @@ const Select: React.FC<SelectProps> = ({
       }
     }
   };
-
-  const showError = (isTouched || submitCount > 0) && meta.error;
 
   const filteredOptions = options.filter((option) =>
     option.label.toLowerCase().includes(searchQuery.toLowerCase())
@@ -180,8 +175,8 @@ const Select: React.FC<SelectProps> = ({
           setTimeout(() => {
             if (!selectRef.current?.contains(document.activeElement)) {
               setIsOpen(false);
-              setIsTouched(true);
-              helpers.setTouched(true);
+              // setIsTouched(true);
+              // helpers.setTouched(true);
               setIsFocused(false);
             }
           }, 0);

@@ -1,13 +1,11 @@
 import { Field, Form, Formik, FormikHelpers, getIn } from "formik";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import * as Yup from "yup";
 import Button from "../button/button";
 import InputField from "../Fields/InputField";
 import Select from "../select/Select";
-// import { registerBrandInquiry } from "@/api/home";
-import { useRouter, usePathname } from "next/navigation";
+
 import NumberField from "../Fields/CustomNumberBox";
-import Image from "next/image";
 import Checkbox from "../Fields/CheckBox";
 import States from "@/data/states";
 import Cities from "@/data/cities";
@@ -25,16 +23,10 @@ interface FormValues {
 
 interface EnquireProps {
   varient?: "white" | "dark";
-  pageFrom?: string;
 }
 
-const MainForm: React.FC<EnquireProps> = ({ varient = "white", pageFrom }) => {
-  const router = useRouter();
-  const pathname = usePathname();
-  const [leadFrom, setLeadFrom] = useState("");
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [cities, setCities] = useState(Cities);
 
   const initialValues: FormValues = {
     name: "",
@@ -45,21 +37,6 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white", pageFrom }) => {
     city: 0,
     acceptTerms: true,
   };
-
-  useEffect(() => {
-    if (pathname) {
-      const pathParts = pathname.split("/");
-      if (pathParts.includes("franchise")) {
-        const locationIndex = pathParts.indexOf("franchise") + 1;
-        if (pathParts[locationIndex]) {
-          const locationName =
-            pathParts[locationIndex].charAt(0).toUpperCase() +
-            pathParts[locationIndex].slice(1);
-          setLeadFrom(locationName);
-        }
-      }
-    }
-  }, [pathname]);
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -272,7 +249,7 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white", pageFrom }) => {
                     ? "border-red-500 mb-0.5"
                     : ""
                 }`}
-                options={cities.map((city) => ({
+                options={Cities.map((city) => ({
                   label: city.name,
                   value: city.id,
                 }))}
