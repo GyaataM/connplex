@@ -7,7 +7,6 @@ import Footer from "@/components/footer/footer";
 import { useRouter } from "next/navigation";
 
 function EventLandingPage() {
-  const router = useRouter();
   const [registering, setRegistering] = useState<boolean>(false);
 
   return (
