@@ -237,7 +237,9 @@ function EventLandingPage() {
                 <div key={index} className="flex gap-[17px]">
                   {images.map((image, innerIndex) =>
                     index % 2 === 0 ? (
-                      <img
+                      <Image
+                        width={300}
+                        height={200}
                         key={innerIndex}
                         className={`!h-[200px] ${
                           innerIndex === images.length - 1
@@ -248,7 +250,9 @@ function EventLandingPage() {
                         alt={`theatreImage${innerIndex + 1}`}
                       />
                     ) : (
-                      <img
+                      <Image
+                        width={300}
+                        height={200}
                         key={innerIndex}
                         className={`!h-[200px] ${
                           innerIndex === 0 ? "w-[374px]" : "w-[271px]"
@@ -281,7 +285,9 @@ function EventLandingPage() {
               ].map((images, index) => (
                 <div key={index} className="flex flex-wrap gap-[17px]">
                   {images.map((image, innerIndex) => (
-                    <img
+                    <Image
+                      width={300}
+                      height={200}
                       className={`w-full ${
                         index % 2 === 0 ? "md:w-auto" : "md:w-[560px]"
                       } !h-[200px]`}

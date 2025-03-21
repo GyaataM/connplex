@@ -30,9 +30,9 @@ const Select: React.FC<SelectProps> = ({
   searchable = false,
   disabled = false,
 }) => {
-  const [field, helpers] = useField(name);
+  const [field, meta, helpers] = useField(name);
   const [isOpen, setIsOpen] = useState(false);
-  // const [isTouched, setIsTouched] = useState(false);
+  const [isTouched, setIsTouched] = useState(false);
   const [dropUp, setDropUp] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [focusedOptionIndex, setFocusedOptionIndex] = useState(-1);
@@ -51,8 +51,8 @@ const Select: React.FC<SelectProps> = ({
       ) {
         setIsOpen(false);
         if (isOpen) {
-          // setIsTouched(true);
-          // helpers.setTouched(true);
+          setIsTouched(true);
+          helpers.setTouched(true);
         }
       }
     };
@@ -60,7 +60,7 @@ const Select: React.FC<SelectProps> = ({
     return () => {
       document.removeEventListener("click", handleClickOutside);
     };
-  }, [selectRef, helpers, isOpen]);
+  }, [selectRef, helpers, isOpen, meta, isTouched]);
 
   useEffect(() => {
     if (isOpen && dropdownRef.current && selectRef.current) {
@@ -81,9 +81,9 @@ const Select: React.FC<SelectProps> = ({
   }, [isOpen]);
 
   const handleOptionClick = (option: Option) => {
-    // helpers.setValue(option.value);
+    helpers.setValue(option.value);
     setIsOpen(false);
-    // setIsTouched(true);
+    setIsTouched(true);
     if (onChange) {
       onChange(option.value);
     }
@@ -134,8 +134,8 @@ const Select: React.FC<SelectProps> = ({
           case "Tab":
             event.preventDefault();
             setIsOpen(false);
-            // setIsTouched(true);
-            // helpers.setTouched(true);
+            setIsTouched(true);
+            helpers.setTouched(true);
             if (event.key === "Tab") {
               setTimeout(() => {
                 if (selectRef.current) {
@@ -175,8 +175,8 @@ const Select: React.FC<SelectProps> = ({
           setTimeout(() => {
             if (!selectRef.current?.contains(document.activeElement)) {
               setIsOpen(false);
-              // setIsTouched(true);
-              // helpers.setTouched(true);
+              setIsTouched(true);
+              helpers.setTouched(true);
               setIsFocused(false);
             }
           }, 0);
