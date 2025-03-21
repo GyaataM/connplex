@@ -4,8 +4,10 @@ import { useState } from "react";
 import EventForm from "@/components/connplex/eventForm";
 import MainForm from "@/components/connplex/mainForm";
 import Footer from "@/components/footer/footer";
+import { useRouter } from "next/navigation";
 
 function EventLandingPage() {
+  const router = useRouter();
   const [registering, setRegistering] = useState<boolean>(false);
 
   return (
@@ -37,7 +39,16 @@ function EventLandingPage() {
         <div className="pt-[33px] pb-[101px] bg-black flex flex-col gap-[100px]">
           {/* yt section */}
           <section className="px-[24.5px] lg:px-0 w-full flex gap-[30px] md:gap-[70px] flex-col-reverse lg:flex-row items-center justify-center">
-            <div className="w-full md:w-[507px] h-[285px] bg-red-400"></div>
+            <Image
+              alt="ytVideo"
+              height={285}
+              width={507}
+              className="cursor-pointer w-full md:w-[507px] h-[285px]"
+              src="/images/connplex/Video.png"
+              onClick={() =>
+                router.push("https://www.youtube.com/watch?v=5O6dthi2-lU")
+              }
+            />
             <div className="w-full md:w-[350px] text-[22px] text-center lg:text-start leading-[25px] lg:text-[35px] lg:leading-[45px] text-[#D3B15F] font-semibold">
               Experience the Magic of Connplex - A Glimpse into Our Stunning
               Cinemas
