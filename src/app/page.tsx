@@ -4,8 +4,6 @@ import { useState } from "react";
 import EventForm from "@/components/connplex/eventForm";
 import MainForm from "@/components/connplex/mainForm";
 import Footer from "@/components/footer/footer";
-import { useRouter } from "next/navigation";
-
 function EventLandingPage() {
   const [registering, setRegistering] = useState<boolean>(false);
 
