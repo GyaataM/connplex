@@ -8,7 +8,7 @@ function EventLandingPage() {
   const [registering, setRegistering] = useState<boolean>(false);
 
   return (
-    <>
+    <div className="relative">
       {registering && (
         <div className="scroll-smooth w-full h-full absolute z-50 flex justify-center items-center bg-[#0400007e]">
           <div
@@ -461,7 +461,7 @@ function EventLandingPage() {
       </div>
 
       <Footer />
-    </>
+    </div>
   );
 }
 
@@ -469,8 +469,8 @@ export default EventLandingPage;
 
 const BannerSection = () => {
   return (
-    <section className="h-full px-[24.5px] lg:px-0 pt-[81px] pb-8 flex justify-center items-center !bg-[url(/images/connplex/connplex_banner.jpg)] object-cover bg-cover">
-      <div className="relative container z-[1]  flex justify-center">
+    <section className="h-full lg:h-screen px-[24.5px] lg:px-0 pt-[81px] pb-8 flex justify-center items-center !bg-[url(/images/connplex/connplex_banner.jpg)] object-cover bg-cover">
+      <div className="relative container flex justify-center">
         <div className="w-full flex flex-col gap-7 lg:flex-row items-center justify-center">
           <div className="max-w-[500px] lg:max-w-[510px] flex flex-col lg:items-start items-center text-white text-center lg:text-left lg:mb-0">
             <Image

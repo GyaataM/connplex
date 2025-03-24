@@ -46,8 +46,8 @@ const EnvForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
       .trim()
       .max(250, "Job Title cannot be longer than 250 characters."),
     phoneNumber: Yup.string()
-      .matches(/^\d{10}$/, "Phone Number must be exactly 10 digits")
-      .required("Phone Number is required"),
+      .matches(/^\d{10}$/, "Contact No. must be exactly 10 digits")
+      .required("Contact No. is required"),
     email: Yup.string()
       .max(250, "Email Address cannot be longer than 250 characters.")
       .email("Invalid email address")
@@ -161,7 +161,7 @@ const EnvForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                 name="phoneNumber"
                 fontClasses="text-xs md:text-xs"
                 type="text"
-                placeholder="Contact No*"
+                placeholder="Contact No.*"
                 required={true}
                 maxLength={10}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
