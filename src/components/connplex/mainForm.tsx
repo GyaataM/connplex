@@ -49,8 +49,8 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
       .trim()
       .max(250, "Job Title cannot be longer than 250 characters."),
     phoneNumber: Yup.string()
-      .matches(/^\d{10}$/, "Phone Number must be exactly 10 digits")
-      .required("Phone Number is required"),
+      .matches(/^\d{10}$/, "Contact No. must be exactly 10 digits")
+      .required("Contact No. is required"),
     email: Yup.string()
       .max(250, "Email Address cannot be longer than 250 characters.")
       .email("Invalid email address")
@@ -126,7 +126,7 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
             <div className="w-full flex flex-wrap text-center text-[#D3B15F] text-[25px] leading-[26px] font-semibold">
               Grab Our Special Franchise Offer!
             </div>
-            <div className="w-full flex gap-[25px] md:mr-2 mb-2">
+            <div className="w-full flex gap-[25px] justify-center md:mr-2 mb-2">
               <div>
                 <Field
                   as={InputField}
@@ -135,7 +135,14 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                   name="name"
                   type="text"
                   required={true}
-                  className={`bg-white text-black block text-xs md:text-xs w-full border border-[#73727366] rounded-lg py-2 px-4 focus:outline-none text-[12px] font-medium ${
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    let value = e.target.value;
+                    value = value.replace(/^\s+/, "");
+                    value = value.replace(/\s{2,}/g, " ");
+
+                    setFieldValue("name", value);
+                  }}
+                  className={`bg-white text-black block text-xs md:text-xs w-[138px] lg:w-[150px] h-[26px] md:h-[30px] border border-[#73727366] rounded-lg py-2 px-4 focus:outline-none text-[12px] font-medium ${
                     getIn(errors, "name") && getIn(touched, "name")
                       ? "border-red-500 mb-0.5"
                       : ""
@@ -155,7 +162,10 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                   name="email"
                   type="email"
                   required={true}
-                  className={`bg-white text-black block text-xs md:text-xs w-full border border-[#73727366] rounded-lg text-[12px] font-medium py-2 px-4 focus:outline-none ${
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    setFieldValue("email", e.target.value.trim());
+                  }}
+                  className={`bg-white text-black block text-xs md:text-xs w-[138px] lg:w-[150px] h-[26px] md:h-[30px] border border-[#73727366] rounded-lg text-[12px] font-medium py-2 px-4 focus:outline-none ${
                     getIn(errors, "email") && getIn(touched, "email")
                       ? "border-red-500 mb-0.5"
                       : ""
@@ -168,7 +178,7 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                 )}
               </div>
             </div>
-            <div className="w-full flex gap-[25px] md:mr-2 mb-2">
+            <div className="w-full flex gap-[25px] justify-center md:mr-2 mb-2">
               <div>
                 <Field
                   as={NumberField}
@@ -176,7 +186,7 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                   name="phoneNumber"
                   fontClasses="text-xs md:text-xs"
                   type="text"
-                  label="Contact No"
+                  label="Contact No."
                   required={true}
                   maxLength={10}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,7 +195,7 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                       setFieldValue("phoneNumber", value);
                     }
                   }}
-                  className={`bg-white text-black block !pl-8 w-full text-xs md:text-xs border border-[#73727366] text-[12px] font-medium rounded-lg py-2 px-1 focus:outline-none mb-0.5 ${
+                  className={`bg-white text-black block !pl-8 w-[138px] lg:w-[150px] h-[26px] md:h-[30px] text-xs md:text-xs border border-[#73727366] text-[12px] font-medium rounded-lg py-2 px-1 focus:outline-none mb-0.5 ${
                     getIn(errors, "phoneNumber") &&
                     getIn(touched, "phoneNumber")
                       ? "border-red-500"
@@ -206,8 +216,15 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                   name="jobTitle"
                   type="text"
                   label="Job Title"
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    let value = e.target.value;
+                    value = value.replace(/^\s+/, "");
+                    value = value.replace(/\s{2,}/g, " ");
+
+                    setFieldValue("jobTitle", value);
+                  }}
                   // w-[114px] md:w-[156px]
-                  className={`bg-white text-black block text-xs md:text-xs w-full lg:w-[137.5px] border border-[#73727366] rounded-lg py-2 px-4 focus:outline-none text-[12px] font-medium ${
+                  className={`bg-white text-black block text-xs md:text-xs w-[138px] lg:w-[150px] h-[26px] md:h-[30px] border border-[#73727366] rounded-lg py-2 px-4 focus:outline-none text-[12px] font-medium ${
                     getIn(errors, "jobTitle") && getIn(touched, "jobTitle")
                       ? "border-red-500 mb-0.5"
                       : ""
@@ -220,52 +237,56 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
                 )}
               </div>
             </div>
-            <div className="w-full flex gap-[25px] md:mr-2 mb-2">
-              <Select
-                searchable={true}
-                name="state"
-                label="State"
-                placeholder="Type your state"
-                className={`flex items-center justify-between text-[10px] text-black font-medium border border-[rgba(115,114,115,0.4)] rounded-lg py-[7px] px-4 cursor-pointer bg-white focus:outline-none ${
-                  getIn(errors, "state") && getIn(touched, "state")
-                    ? "border-red-500 mb-0.5"
-                    : ""
-                }`}
-                options={States.map((state) => ({
-                  label: state.name,
-                  value: state.countryId,
-                }))}
-              />
-              {getIn(errors, "state") && getIn(touched, "state") && (
-                <div className="text-red-500 font-medium w-full  text-[12px]">
-                  {getIn(errors, "state")}
-                </div>
-              )}
-              <Select
-                searchable={true}
-                name="city"
-                label="City"
-                placeholder="Type your city"
-                disabled={!values.state}
-                className={`flex items-center justify-between text-[10px] text-black font-medium border border-[rgba(115,114,115,0.4)] rounded-lg py-[7px] px-4 cursor-pointer ${
-                  !values.state ? "!bg-black" : "!bg-white"
-                } focus:outline-none ${
-                  getIn(errors, "city") && getIn(touched, "city")
-                    ? "border-red-500 mb-0.5"
-                    : ""
-                }`}
-                options={Cities.filter(
-                  (city) => city.stateId === values.state
-                ).map((city) => ({
-                  label: city.name,
-                  value: city.id,
-                }))}
-              />
-              {getIn(errors, "city") && getIn(touched, "city") && (
-                <div className="text-red-500 font-medium w-full  text-[12px]">
-                  {getIn(errors, "city")}
-                </div>
-              )}
+            <div className="w-full flex gap-[25px] justify-center md:mr-2 mb-2">
+              <div>
+                <Select
+                  searchable={true}
+                  name="state"
+                  label="State"
+                  placeholder="Type your state"
+                  className={`flex items-center justify-between text-[10px] w-[138px] lg:w-[150px] h-[26px] md:h-[30px] text-black font-medium border border-[rgba(115,114,115,0.4)] rounded-lg py-[7px] px-4 cursor-pointer bg-white focus:outline-none ${
+                    getIn(errors, "state") && getIn(touched, "state")
+                      ? "border-red-500 mb-0.5"
+                      : ""
+                  }`}
+                  options={States.map((state) => ({
+                    label: state.name,
+                    value: state.countryId,
+                  }))}
+                />
+                {getIn(errors, "state") && getIn(touched, "state") && (
+                  <div className="text-red-500 font-medium w-full  text-[12px]">
+                    {getIn(errors, "state")}
+                  </div>
+                )}
+              </div>
+              <div>
+                <Select
+                  searchable={true}
+                  name="city"
+                  label="City"
+                  placeholder="Type your city"
+                  disabled={!values.state}
+                  className={`flex items-center justify-between text-[10px] w-[138px] lg:w-[150px] h-[26px] md:h-[30px] text-black font-medium border border-[rgba(115,114,115,0.4)] rounded-lg py-[7px] px-4 cursor-pointer ${
+                    !values.state ? "!bg-black" : "!bg-white"
+                  } focus:outline-none ${
+                    getIn(errors, "city") && getIn(touched, "city")
+                      ? "border-red-500 mb-0.5"
+                      : ""
+                  }`}
+                  options={Cities.filter(
+                    (city) => city.stateId === values.state
+                  ).map((city) => ({
+                    label: city.name,
+                    value: city.id,
+                  }))}
+                />
+                {getIn(errors, "city") && getIn(touched, "city") && (
+                  <div className="text-red-500 font-medium w-full  text-[12px]">
+                    {getIn(errors, "city")}
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex items-center">
