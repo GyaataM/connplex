@@ -85,6 +85,7 @@ const EnvForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
             },
           ],
           designation: values.jobTitle,
+          state: States.find((state) => state.countryId === values.state)?.name,
           city: Cities.find((city) => city.id === values.city)?.name,
           subSource: "Connplex",
         },
