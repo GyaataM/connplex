@@ -30,6 +30,13 @@ function EventLandingPage() {
           </div>
         </div>
       )}
+      <div className="scroll-container">
+        <span className="scrolling-text">
+          Join us at the 21st International Franchise & Retail Show on 17th-18th
+          May, 2025. Time - 10:00 am to 6:00 pm Booth No - L04, YASHOBHOOMI,
+          India International Convention and Expo Centre (IICC), Delhi
+        </span>
+      </div>
       <BannerSection />
 
       <div className="relative">
