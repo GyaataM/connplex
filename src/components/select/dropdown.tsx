@@ -36,7 +36,6 @@ const Dropdown: React.FC<DropdownProps> = ({
       setIsOpen(false);
       if (!value) {
         setIsTouched(true);
-        // onBlur(name);
       }
     }
   };
