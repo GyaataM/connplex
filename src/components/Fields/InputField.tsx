@@ -39,9 +39,6 @@ const InputField: React.FC<InputFieldProps> = ({
         </label>
       )}
       <input
-        // className={`block w-full border border-[rgba(115,114,115,0.4)] rounded-lg py-2 px-4 focus:outline-none font-medium ${
-        //   disabled && "pointer-event-none bg-[rgba(115,114,115,0.2)]"
-        // } ${className}`}
         className={`${
           className
             ? className

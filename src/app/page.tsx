@@ -30,28 +30,12 @@ function EventLandingPage() {
           </div>
         </div>
       )}
-      <div className="scroll-container">
-        <span className="scrolling-text">
-          Join us at the 21st International Franchise & Retail Show on 17th-18th
-          May, 2025. Time - 10:00 am to 6:00 pm Booth No - L04, YASHOBHOOMI,
-          India International Convention and Expo Centre (IICC), Delhi
-        </span>
-      </div>
       <BannerSection />
 
       <div className="relative">
         <div className="pt-[33px] pb-[101px] bg-black flex flex-col gap-[100px]">
           {/* yt section */}
           <section className="px-[24.5px] lg:px-0 w-full flex gap-[30px] md:gap-[70px] flex-col-reverse lg:flex-row items-center justify-center">
-            {/* <Image
-              alt="ytVideo"
-              height={285}
-              width={507}
-              src="/images/connplex/Video.png"
-              onClick={() =>
-              router.push("https://www.youtube.com/watch?v=5O6dthi2-lU")
-              }
-              /> */}
             <iframe
               className="cursor-pointer w-full md:w-[507px] h-[285px]"
               width="560"

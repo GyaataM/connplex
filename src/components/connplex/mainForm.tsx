@@ -225,7 +225,6 @@ const MainForm: React.FC<EnquireProps> = ({ varient = "white" }) => {
 
                     setFieldValue("jobTitle", value);
                   }}
-                  // w-[114px] md:w-[156px]
                   className={`bg-white text-black block text-xs md:text-xs w-[138px] lg:w-[150px] h-[26px] md:h-[30px] border border-[#73727366] rounded-lg py-2 px-4 focus:outline-none text-[12px] font-medium ${
                     getIn(errors, "jobTitle") && getIn(touched, "jobTitle")
                       ? "border-red-500 mb-0.5"
