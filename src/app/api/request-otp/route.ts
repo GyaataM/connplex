@@ -1,54 +1,31 @@
-// app/api/request-otp/route.ts
-import { NextResponse } from "next/server";
-import { createAndSendOTPMessage } from "@/lib/otp";
+import { NextRequest, NextResponse } from "next/server";
 
-export type ErrType = {
-  response: {
-    data: {
-      message: string;
-    };
-  };
-};
+const allowedReferers = [
+  "http://localhost:3000",
+  "https://www.connplexcinemas.com/"
+];
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  const referer = req.headers.get("referer") || "";
+
+  const isAllowedReferer = allowedReferers.some((allowed) =>
+    referer.startsWith(allowed)
+  );
+
+  if (!isAllowedReferer) {
+    return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+  }
+
+  const { countryCode, mobileNumber } = await req.json();
+
+  if (!countryCode || !mobileNumber) {
+    return NextResponse.json({ success: false, message: "Missing data" }, { status: 400 });
+  }
+
   try {
-    const { mobileNumber, countryCode } = await req.json();
-
-    if (!mobileNumber || !countryCode) {
-      return NextResponse.json({
-        success: false,
-        message: "Mobile number is required",
-        error: null,
-      });
-    }
-
-    const { fullHash, expires } = await createAndSendOTPMessage(
-      countryCode,
-      mobileNumber
-    );
-
-    return NextResponse.json({
-      success: true,
-      message: "OTP sent to your phone",
-      data: {
-        hash: fullHash,
-        expires,
-      },
-    });
-  } catch (error: unknown) {
-    const err = error as ErrType;
-
-    console.error("Error sending OTP:", err);
-
-    return NextResponse.json(
-      {
-        success: false,
-        message:
-          err?.response?.data?.message ||
-          "Unknown error, please try again after sometime",
-        error: null,
-      },
-      { status: 500 }
-    );
+    // const { fullHash } = await createAndSendOTPMessage(countryCode, mobileNumber);
+    return NextResponse.json({ success: true, message: "OTP send successfully!" });
+  } catch (err) {
+    return NextResponse.json({ success: false, data: {err}, message: "Failed to send OTP" }, { status: 500 });
   }
 }

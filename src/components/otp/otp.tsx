@@ -1,8 +1,8 @@
 import CloseIcon from "@/assets/icons/closeIcon";
 import React, { useState, useEffect } from "react";
 import OtpIcon from "@/assets/icons/otpicon";
-import axios from "axios";
-import { ErrType } from "@/app/api/request-otp/route";
+import { serverRequestOTP, serverVerifyOTP } from "../../app/actions/otp";
+import { useOTPContext } from "@/context/OTPContext";
 
 interface OTPModalProps {
   isOpen: boolean;
@@ -13,8 +13,6 @@ interface OTPModalProps {
   handleCallbackSuccess: () => void;
 }
 
-const otpSessionHashKey = "tmpOTPHashKey";
-
 let countdown: NodeJS.Timeout | undefined;
 
 const OTPModal: React.FC<OTPModalProps> = ({
@@ -22,9 +20,10 @@ const OTPModal: React.FC<OTPModalProps> = ({
   onClose,
   mobileNumber,
   countryCode,
-  submitUrl,
   handleCallbackSuccess,
 }) => {
+  const { otpHash, setOtpHash } = useOTPContext();
+  
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [timer, setTimer] = useState(60); // Timer starts at 60 seconds
   const [canResend, setCanResend] = useState(false);
@@ -34,34 +33,23 @@ const OTPModal: React.FC<OTPModalProps> = ({
   const [verifyDone, setVerifyDone] = useState(false);
 
   const otpGet = async () => {
-    const params = {
-      countryCode,
-      mobileNumber,
-    };
-    try {
-      const response = await axios.post(`/api/request-otp`, params);
+  try {
+    const result = await serverRequestOTP(countryCode, mobileNumber);
+    setOtpHash(result.hash);
+    setCanResend(false);
+    setTimer(60);
+  } catch (error: unknown) {
+let message = "Failed to send OTP.";
 
-      if (response.status === 200 && response.data.success === true) {
-        setCanResend(false);
-        setTimer(60);
-        sessionStorage.setItem(otpSessionHashKey, response.data.data.hash);
-      } else {
-        setVerificationError(true);
-        setErrorMessage(response.data.message);
-        if (countdown) clearInterval(countdown);
-      }
-    } catch (error: unknown) {
-      const err = error as ErrType;
+  if (error instanceof Error) {
+    message = error.message;
+  }
 
-      console.error("Error getting OTP:", err);
-      setVerificationError(true);
-      setErrorMessage(
-        err?.response?.data?.message ||
-          "Resend OTP is Failed. Please try again later."
-      );
-      if (countdown) clearInterval(countdown);
-    }
-  };
+  setVerificationError(true);
+  setErrorMessage(message);
+
+  }
+};
 
   useEffect(() => {
     if (isOpen && timer > 0) {
@@ -156,10 +144,9 @@ const OTPModal: React.FC<OTPModalProps> = ({
     // setCanResend(false);
     setVerificationError(false);
     setErrorMessage("");
-    setAttempts(2); // Reset attempts when OTP is resent
+    setAttempts(2);
     otpGet();
     setVerifyDone(false);
-    // Add your resend OTP logic here
   };
 
   const handleClose = () => {
@@ -173,38 +160,25 @@ const OTPModal: React.FC<OTPModalProps> = ({
   };
 
   const handleVerify = async () => {
-    const otpString = otp.join(""); // Convert OTP array to string
-    const params = {
-      mobileNumber,
-      countryCode,
-      otp: otpString,
-      hash: sessionStorage.getItem(otpSessionHashKey),
-      pageFrom: submitUrl,
-    };
-    try {
-      const response = await axios.post(`/api/verify-otp`, params);
-      if (response.status === 200 && response.data.success === true) {
-        setVerificationError(false);
-        setErrorMessage("");
-        setVerifyDone(true);
-        setAttempts(2);
-        handleCallbackSuccess();
-      } else {
-        setVerificationError(true);
-        setErrorMessage(response.data.message);
-        setVerifyDone(false);
-      }
-    } catch (error: unknown) {
-      const err = error as ErrType;
+  const otpString = otp.join("");
+  const hash = otpHash;
 
-      console.error("Error verifying OTP:", err);
-      setVerificationError(true);
-      setVerifyDone(false);
-      setErrorMessage(
-        err?.response?.data?.message || "Invalid OTP. Please try agian."
-      );
-    }
-  };
+  try {
+    await serverVerifyOTP(mobileNumber, otpString, hash || "");
+    setVerifyDone(true);
+    setVerificationError(false);
+    handleCallbackSuccess();
+  } catch (error: unknown) {
+    let message = "Invalid OTP";
+
+  if (error instanceof Error) {
+    message = error.message;
+  }
+
+  setVerificationError(true);
+  setErrorMessage(message);
+  }
+};
   const isOtpComplete = otp.every((digit) => digit !== "");
 
   if (!isOpen) return null;

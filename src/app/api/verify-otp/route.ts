@@ -1,42 +1,32 @@
-// app/api/verify-otp/route.ts
-import { NextResponse } from "next/server";
-import { verifyOTP } from "@/lib/otp";
+import { verifyOTP } from "@/lib/otpUtils";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(req: Request) {
-  try {
-    const { mobileNumber, otp, hash } = await req.json();
+const allowedReferers = [
+  "http://localhost:3000",
+  "https://www.connplexcinemas.com"
+];
 
-    if (!mobileNumber || !otp || !hash) {
-      return NextResponse.json({
-        success: false,
-        message: "Missing required values",
-        error: null,
-      });
-    }
-
-    const isValid = verifyOTP(mobileNumber, otp, hash);
-
-    if (!isValid) {
-      return NextResponse.json({
-        success: false,
-        message: "Invalid or expired OTP",
-        error: null,
-      });
-    }
-
-    return NextResponse.json({
-      success: true,
-      message: "OTP verified successfully",
-      data: null,
-    });
-  } catch (error: unknown) {
-    return NextResponse.json(
-      {
-        success: false,
-        message: `Unknown error, please try again after sometime, ${error}`,
-        error: null,
-      },
-      { status: 500 }
+export async function POST(req: NextRequest) {
+  const referer = req.headers.get("referer") || "";
+  const isAllowedReferer = allowedReferers.some((allowed) =>
+      referer.startsWith(allowed)
     );
+  
+    if (!isAllowedReferer) {
+      return NextResponse.json({ success: false, message: "Unauthorized" }, { status: 401 });
+    }
+
+  const { countryCode, mobileNumber, otp, hash } = await req.json();
+
+  if (!countryCode || !mobileNumber || !otp || !hash) {
+    return NextResponse.json({ success: false, message: "Missing fields" }, { status: 400 });
   }
+
+  const isValid = verifyOTP(mobileNumber, otp, hash);
+
+  if (!isValid) {
+    return NextResponse.json({ success: false, message: "Invalid or expired OTP" }, { status: 401 });
+  }
+
+  return NextResponse.json({ success: true, message: "OTP Verified" });
 }
