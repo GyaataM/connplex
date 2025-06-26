@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 const allowedReferers = [
   "http://localhost:3000",
   "https://www.connplexcinemas.com",
-  "uatconnplex.vercel.app"
+  "https://uatconnplex.vercel.app"
 ];
 
 export async function POST(req: NextRequest) {

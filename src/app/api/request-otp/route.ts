@@ -8,7 +8,7 @@ export async function POST(req: NextRequest) {
   const referer = req.headers.get("referer") || "";
 
   // Optional: restrict domains
-  const allowedDomains = ["http://localhost:3000", "https://www.connplexcinemas.com", "uatconnplex.vercel.app"];
+  const allowedDomains = ["http://localhost:3000", "https://www.connplexcinemas.com", "https://uatconnplex.vercel.app"];
   if (!allowedDomains.some(domain => referer.includes(domain))) {
     return NextResponse.json({ success: false, message: "Unauthorized domain" }, { status: 401 });
   }
