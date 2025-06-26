@@ -1,8 +1,8 @@
+
+
 import CloseIcon from "@/assets/icons/closeIcon";
-import React, { useState, useEffect } from "react";
 import OtpIcon from "@/assets/icons/otpicon";
-import { serverRequestOTP, serverVerifyOTP } from "../../app/actions/otp";
-import { useOTPContext } from "@/context/OTPContext";
+import React, { useEffect, useState } from "react";
 
 interface OTPModalProps {
   isOpen: boolean;
@@ -22,7 +22,7 @@ const OTPModal: React.FC<OTPModalProps> = ({
   countryCode,
   handleCallbackSuccess,
 }) => {
-  const { otpHash, setOtpHash } = useOTPContext();
+  // const { otpHash, setOtpHash } = useOTPContext();
   
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [timer, setTimer] = useState(60); // Timer starts at 60 seconds
@@ -32,24 +32,29 @@ const OTPModal: React.FC<OTPModalProps> = ({
   const [attempts, setAttempts] = useState(2);
   const [verifyDone, setVerifyDone] = useState(false);
 
-  const otpGet = async () => {
+const otpGet = async () => {
   try {
-    const result = await serverRequestOTP(countryCode, mobileNumber);
-    setOtpHash(result.hash);
-    setCanResend(false);
-    setTimer(60);
+    const response = await fetch("/api/request-otp", {
+      method: "POST",
+      body: JSON.stringify({ countryCode, mobileNumber }),
+    });
+
+    const result = await response.json();
+    if (response.ok && result.success) {
+      // setOtpHash(result.hash);
+      setCanResend(false);
+      setTimer(60);
+    } else {
+      throw new Error(result.message || "Failed to send OTP");
+    }
   } catch (error: unknown) {
-let message = "Failed to send OTP.";
-
-  if (error instanceof Error) {
-    message = error.message;
-  }
-
-  setVerificationError(true);
-  setErrorMessage(message);
-
+    const message =
+      error instanceof Error ? error.message : "Failed to send OTP.";
+    setVerificationError(true);
+    setErrorMessage(message);
   }
 };
+
 
   useEffect(() => {
     if (isOpen && timer > 0) {
@@ -161,24 +166,33 @@ let message = "Failed to send OTP.";
 
   const handleVerify = async () => {
   const otpString = otp.join("");
-  const hash = otpHash;
 
   try {
-    await serverVerifyOTP(mobileNumber, otpString, hash || "");
-    setVerifyDone(true);
-    setVerificationError(false);
-    handleCallbackSuccess();
+    const response = await fetch("/api/verify-otp", {
+      method: "POST",
+      body: JSON.stringify({
+        mobileNumber,
+        otp: otpString,
+        // hash: otpHash,
+      }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok && result.success) {
+      setVerifyDone(true);
+      setVerificationError(false);
+      handleCallbackSuccess();
+    } else {
+      throw new Error(result.message || "Invalid OTP");
+    }
   } catch (error: unknown) {
-    let message = "Invalid OTP";
-
-  if (error instanceof Error) {
-    message = error.message;
-  }
-
-  setVerificationError(true);
-  setErrorMessage(message);
+    const message = error instanceof Error ? error.message : "Invalid OTP";
+    setVerificationError(true);
+    setErrorMessage(message);
   }
 };
+
   const isOtpComplete = otp.every((digit) => digit !== "");
 
   if (!isOpen) return null;
