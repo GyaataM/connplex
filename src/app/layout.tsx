@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { OTPProvider } from "@/context/OTPContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -61,7 +62,9 @@ export default function RootLayout({
           ></iframe>
         </noscript>
         {/* <!-- End Google Tag Manager (noscript) -->  */}
-        {children}
+        <OTPProvider>
+          {children}
+        </OTPProvider>
       </body>
     </html>
   );
