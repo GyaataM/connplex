@@ -3,7 +3,7 @@ import crypto from "crypto";
 import { sendSMS } from "./sendSMS";
 
 //for hashing the mobile number
-const OTP_HASHING_SECRET_KEY = process.env.OTP_HASHING_SECRET_KEY!;
+const OTP_HASHING_SECRET_KEY = 'secret-key-for-otp';
 const OTP_EXPIRE_TIME = 2 * 60 * 1000; // 2 minutes in ms
 
 export async function createAndSendOTPMessage(
