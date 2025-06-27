@@ -1,10 +1,11 @@
 import otpStore from "@/lib/otpStore";
-import { verifyOTP } from "@/lib/otpUtils";
+import { verifyOTP } from "../otpUtills/otpUtils";
 import { NextRequest, NextResponse } from "next/server";
 
 const allowedReferers = [
   "http://localhost:3000",
   "https://www.connplexcinemas.com",
+  "https://uatconnplex.vercel.app"
 ];
 
 export async function POST(req: NextRequest) {

@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const USERNAME = process.env.OTP_USERNAME;
-const PASSWORD = process.env.OTP_PASSWORD;
-const SENDERID = process.env.OTP_SENDERID;
-const CONTENTID = process.env.OTP_CONTENTID;
+const USERNAME = 'vcs_indust';
+const PASSWORD = 'dxn2ua45';
+const SENDERID = 'CNPLEX';
+const CONTENTID = '1607100000000304065';
 
 export type OTPSendOptions = {
   unicode: boolean;
